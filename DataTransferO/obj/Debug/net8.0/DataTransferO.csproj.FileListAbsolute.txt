@@ -1,0 +1,17 @@
+C:\Users\MPhuc\Desktop\HMS_DOAN\DataTransferO\bin\Debug\net8.0\DataTransferO.deps.json
+C:\Users\MPhuc\Desktop\HMS_DOAN\DataTransferO\bin\Debug\net8.0\DataTransferO.dll
+C:\Users\MPhuc\Desktop\HMS_DOAN\DataTransferO\bin\Debug\net8.0\DataTransferO.pdb
+C:\Users\MPhuc\Desktop\HMS_DOAN\bin\Debug\net8.0\DataTransferO.deps.json
+C:\Users\MPhuc\Desktop\HMS_DOAN\bin\Debug\net8.0\DataTransferO.runtimeconfig.json
+C:\Users\MPhuc\Desktop\HMS_DOAN\bin\Debug\net8.0\DataTransferO.dll
+C:\Users\MPhuc\Desktop\HMS_DOAN\bin\Debug\net8.0\DataTransferO.pdb
+C:\Users\MPhuc\Desktop\HMS_DOAN\DataTransferO\obj\Debug\net8.0\DataTransferO.csproj.AssemblyReference.cache
+C:\Users\MPhuc\Desktop\HMS_DOAN\DataTransferO\obj\Debug\net8.0\DataTransferO.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\MPhuc\Desktop\HMS_DOAN\DataTransferO\obj\Debug\net8.0\DataTransferO.AssemblyInfoInputs.cache
+C:\Users\MPhuc\Desktop\HMS_DOAN\DataTransferO\obj\Debug\net8.0\DataTransferO.AssemblyInfo.cs
+C:\Users\MPhuc\Desktop\HMS_DOAN\DataTransferO\obj\Debug\net8.0\DataTransferO.csproj.CoreCompileInputs.cache
+C:\Users\MPhuc\Desktop\HMS_DOAN\DataTransferO\obj\Debug\net8.0\DataTransferO.dll
+C:\Users\MPhuc\Desktop\HMS_DOAN\DataTransferO\obj\Debug\net8.0\refint\DataTransferO.dll
+C:\Users\MPhuc\Desktop\HMS_DOAN\DataTransferO\obj\Debug\net8.0\DataTransferO.pdb
+C:\Users\MPhuc\Desktop\HMS_DOAN\DataTransferO\obj\Debug\net8.0\DataTransferO.genruntimeconfig.cache
+C:\Users\MPhuc\Desktop\HMS_DOAN\DataTransferO\obj\Debug\net8.0\ref\DataTransferO.dll
