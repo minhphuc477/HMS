@@ -1,0 +1,5 @@
+C:\Users\MPhuc\Desktop\HMS_DOAN\BusinessLL\obj\Release\net8.0\BusinessLL.csproj.AssemblyReference.cache
+C:\Users\MPhuc\Desktop\HMS_DOAN\BusinessLL\obj\Release\net8.0\BusinessLL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\MPhuc\Desktop\HMS_DOAN\BusinessLL\obj\Release\net8.0\BusinessLL.AssemblyInfoInputs.cache
+C:\Users\MPhuc\Desktop\HMS_DOAN\BusinessLL\obj\Release\net8.0\BusinessLL.AssemblyInfo.cs
+C:\Users\MPhuc\Desktop\HMS_DOAN\BusinessLL\obj\Release\net8.0\BusinessLL.csproj.CoreCompileInputs.cache
