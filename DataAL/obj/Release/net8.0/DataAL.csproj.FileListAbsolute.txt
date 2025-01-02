@@ -1,0 +1,5 @@
+C:\Users\MPhuc\Desktop\HMS_DOAN\DataAL\obj\Release\net8.0\DataAL.csproj.AssemblyReference.cache
+C:\Users\MPhuc\Desktop\HMS_DOAN\DataAL\obj\Release\net8.0\DataAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\MPhuc\Desktop\HMS_DOAN\DataAL\obj\Release\net8.0\DataAL.AssemblyInfoInputs.cache
+C:\Users\MPhuc\Desktop\HMS_DOAN\DataAL\obj\Release\net8.0\DataAL.AssemblyInfo.cs
+C:\Users\MPhuc\Desktop\HMS_DOAN\DataAL\obj\Release\net8.0\DataAL.csproj.CoreCompileInputs.cache
