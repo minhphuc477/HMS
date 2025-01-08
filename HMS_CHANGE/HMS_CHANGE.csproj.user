@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Compile Update="Admin\AccountAdmin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Admin\AppointmentStats.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Admin\DepartmentAssign.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Admin\RevenuStats.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Dashboard\DashBoardAdmin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Dashboard\DashBoardDoctor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Dashboard\DashBoardPatient_GetStart.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Dashboard\ForgetPass.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Dashboard\ResetPassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Dashboard\SignUp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Dashboard\TypeInVerifyToken.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Doctor\AccountDoc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Doctor\DetailsAppointment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Doctor\OrderAppointment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MainBoard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Patient\Account_Setting\AccountSettingDashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Patient\Account_Setting\BillingApp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Patient\Account_Setting\PaymentByApp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Patient\Appointment\PdfViewerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Patient\Appointment\RescheduleAppointment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Patient\Appointment\UpcomingApp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Patient\BookAppointment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>
