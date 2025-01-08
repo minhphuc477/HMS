@@ -1,0 +1,17 @@
+C:\Users\MPhuc\Desktop\HMS_DOAN\HMS_CHANGE\obj\Release\net8.0-windows\HMS_CHANGE.csproj.AssemblyReference.cache
+C:\Users\MPhuc\Desktop\HMS_DOAN\HMS_CHANGE\obj\Release\net8.0-windows\HMS_CHANGE.Dashboard.DashBoardAdmin.resources
+C:\Users\MPhuc\Desktop\HMS_DOAN\HMS_CHANGE\obj\Release\net8.0-windows\HMS_CHANGE.Dashboard.DashBoardDoctor.resources
+C:\Users\MPhuc\Desktop\HMS_DOAN\HMS_CHANGE\obj\Release\net8.0-windows\HMS_CHANGE.Dashboard.DashBoardPatient_GetStart.resources
+C:\Users\MPhuc\Desktop\HMS_DOAN\HMS_CHANGE\obj\Release\net8.0-windows\HMS_CHANGE.Dashboard.ForgetPass.resources
+C:\Users\MPhuc\Desktop\HMS_DOAN\HMS_CHANGE\obj\Release\net8.0-windows\HMS_CHANGE.Dashboard.ResetPassword.resources
+C:\Users\MPhuc\Desktop\HMS_DOAN\HMS_CHANGE\obj\Release\net8.0-windows\HMS_CHANGE.Dashboard.SignUp.resources
+C:\Users\MPhuc\Desktop\HMS_DOAN\HMS_CHANGE\obj\Release\net8.0-windows\HMS_CHANGE.Dashboard.TypeInVerifyToken.resources
+C:\Users\MPhuc\Desktop\HMS_DOAN\HMS_CHANGE\obj\Release\net8.0-windows\HMS_CHANGE.MainBoard.resources
+C:\Users\MPhuc\Desktop\HMS_DOAN\HMS_CHANGE\obj\Release\net8.0-windows\HMS_CHANGE.Patient.BookAppointment.resources
+C:\Users\MPhuc\Desktop\HMS_DOAN\HMS_CHANGE\obj\Release\net8.0-windows\HMS_CHANGE.Patient.DashBoardPatient.resources
+C:\Users\MPhuc\Desktop\HMS_DOAN\HMS_CHANGE\obj\Release\net8.0-windows\HMS_CHANGE.Properties.Resources.resources
+C:\Users\MPhuc\Desktop\HMS_DOAN\HMS_CHANGE\obj\Release\net8.0-windows\HMS_CHANGE.csproj.GenerateResource.cache
+C:\Users\MPhuc\Desktop\HMS_DOAN\HMS_CHANGE\obj\Release\net8.0-windows\HMS_CHANGE.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\MPhuc\Desktop\HMS_DOAN\HMS_CHANGE\obj\Release\net8.0-windows\HMS_CHANGE.AssemblyInfoInputs.cache
+C:\Users\MPhuc\Desktop\HMS_DOAN\HMS_CHANGE\obj\Release\net8.0-windows\HMS_CHANGE.AssemblyInfo.cs
+C:\Users\MPhuc\Desktop\HMS_DOAN\HMS_CHANGE\obj\Release\net8.0-windows\HMS_CHANGE.csproj.CoreCompileInputs.cache
