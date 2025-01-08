@@ -234,6 +234,29 @@ namespace BusinessLL
             return _mapper.Map<IEnumerable<DoctorDetailDTO>>(doctors);
         }
 
+        public async Task<IEnumerable<DoctorDetailDTO>> GetAllDoctorsAsync()
+        {
+            await using var _context = _contextFactory.CreateDbContext();
+            var doctors = await _context.DoctorDetails
+                .Include(d => d.User)
+                .Include(d => d.Department)
+                .ToListAsync();
+
+            return _mapper.Map<IEnumerable<DoctorDetailDTO>>(doctors);
+        }
+
+        public async Task<IEnumerable<DoctorDetailDTO>> GetAllActiveDoctorsAsync()
+        {
+            await using var _context = _contextFactory.CreateDbContext();
+            var doctors = await _context.DoctorDetails
+                .Include(d => d.User)
+                .Include(d => d.Department)
+                .Where(d => d.User.IsActive == true && d.User.IsDeleted == false)
+                .ToListAsync();
+
+            return _mapper.Map<IEnumerable<DoctorDetailDTO>>(doctors);
+        }
+
         public async Task<DoctorDetailDTO> GetDoctorByIdAsync(Guid doctorId)
         {
             if (doctorId == Guid.Empty) throw new ArgumentException("Doctor ID cannot be empty.", nameof(doctorId));
@@ -270,15 +293,17 @@ namespace BusinessLL
 
         public async Task<DoctorDetailDTO> CreateDoctorAsync(DoctorDetailDTO doctorDto)
         {
-            if (doctorDto == null) throw new ArgumentNullException(nameof(doctorDto));
+            using var context = _contextFactory.CreateDbContext();
+            var doctorDetail = _mapper.Map<DoctorDetail>(doctorDto);
 
-            await using var _context = _contextFactory.CreateDbContext();
-            var doctor = _mapper.Map<DoctorDetail>(doctorDto);
-            doctor.DoctorId = Guid.NewGuid();
+            // Ensure the User property is set
+            doctorDetail.User = await context.Users.FindAsync(doctorDto.UserId);
+            doctorDetail.Phone = doctorDto.Phone; // Ensure the PhoneNumber is set
 
-            await _context.DoctorDetails.AddAsync(doctor);
-            await _context.SaveChangesAsync();
-            return _mapper.Map<DoctorDetailDTO>(doctor);
+            context.DoctorDetails.Add(doctorDetail);
+            await context.SaveChangesAsync();
+
+            return _mapper.Map<DoctorDetailDTO>(doctorDetail);
         }
 
         public async Task<DoctorDetailDTO> UpdateDoctorAsync(DoctorDetailDTO doctorDto)
@@ -292,6 +317,21 @@ namespace BusinessLL
                 throw new KeyNotFoundException("Doctor not found.");
             }
 
+            // Ensure the User exists before updating DoctorDetail
+            var user = await _context.Users.FindAsync(doctorDto.UserId);
+            if (user == null)
+            {
+                throw new Exception("User not found. Please ensure the user exists before updating the doctor.");
+            }
+
+            // Update the User details if necessary
+            existingDoctor.User.Name = doctorDto.User.Name;
+            existingDoctor.User.Email = doctorDto.User.Email;
+            existingDoctor.User.PhoneNumber = doctorDto.User.PhoneNumber;
+            existingDoctor.User.DateOfBirth = doctorDto.User.DateOfBirth;
+            existingDoctor.User.Gender = doctorDto.User.Gender;
+
+            // Update the Doctor details
             _mapper.Map(doctorDto, existingDoctor);
             _context.DoctorDetails.Update(existingDoctor);
             await _context.SaveChangesAsync();
@@ -313,19 +353,30 @@ namespace BusinessLL
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<PatientDTO>> GetPatientsForLoggedInDoctorAsync(Guid doctorId)
+        public async Task<int> GetPatientCountForDepartmentAsync(Guid departmentId)
         {
-            if (doctorId == Guid.Empty) throw new ArgumentException("Doctor ID cannot be empty.", nameof(doctorId));
+            if (departmentId == Guid.Empty) throw new ArgumentException("Department ID cannot be empty.", nameof(departmentId));
 
             await using var _context = _contextFactory.CreateDbContext();
-            var patients = await _context.Appointments
-                .Where(a => a.DoctorId == doctorId && a.IsActive == true && a.IsDeleted == false)
-                .Select(a => a.Patient)
-                .Distinct()
+            var doctors = await _context.DoctorDetails
+                .Where(d => d.DepartmentId == departmentId && d.User.IsActive == true && d.User.IsDeleted == false)
                 .ToListAsync();
 
-            return _mapper.Map<IEnumerable<PatientDTO>>(patients);
+            int patientCount = 0;
+            foreach (var doctor in doctors)
+            {
+                var patients = await _context.Appointments
+                    .Where(a => a.DoctorId == doctor.DoctorId && a.IsActive == true && a.IsDeleted == false)
+                    .Select(a => a.Patient)
+                    .Distinct()
+                    .CountAsync();
+
+                patientCount += patients;
+            }
+
+            return patientCount;
         }
+
 
         public async Task<IEnumerable<AppointmentDTO>> GetAppointmentsForDoctorAsync(Guid doctorId)
         {
@@ -364,6 +415,28 @@ namespace BusinessLL
             return _mapper.Map<DiseaseDTO>(disease);
         }
 
+        public async Task AddDiseaseToDepartmentAsync(DiseaseDTO diseaseDto)
+        {
+            if (diseaseDto == null) throw new ArgumentNullException(nameof(diseaseDto));
+
+            await using var _context = _contextFactory.CreateDbContext();
+            var disease = _mapper.Map<Disease>(diseaseDto);
+            _context.Diseases.Add(disease);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<DiseaseDTO>> GetDiseasesByDepartmentAsync(Guid departmentId)
+        {
+            if (departmentId == Guid.Empty) throw new ArgumentException("Department ID cannot be empty.", nameof(departmentId));
+
+            await using var _context = _contextFactory.CreateDbContext();
+            var diseases = await _context.Diseases
+                .Where(d => d.DepartmentId == departmentId)
+                .ToListAsync();
+
+            return _mapper.Map<IEnumerable<DiseaseDTO>>(diseases);
+        }
+
         #endregion
 
         #region Department Management and Disease Management
@@ -374,11 +447,84 @@ namespace BusinessLL
             var departments = await _context.Departments.ToListAsync();
             return _mapper.Map<IEnumerable<DepartmentDTO>>(departments);
         }
+
+        public async Task<IEnumerable<DepartmentDTO>> GetDepartmentsDesAsync()
+        {
+            using var context = _contextFactory.CreateDbContext();
+            var departments = await context.Departments
+                .Include(d => d.Diseases)
+                .ToListAsync();
+            return _mapper.Map<IEnumerable<DepartmentDTO>>(departments);
+        }
+
         public async Task<IEnumerable<DiseaseDTO>> GetAllDiseasesAsync()
         {
             await using var _context = _contextFactory.CreateDbContext();
             var diseases = await _context.Diseases.ToListAsync();
             return _mapper.Map<IEnumerable<DiseaseDTO>>(diseases);
+        }
+
+        public async Task AddDepartmentAsync(DepartmentDTO departmentDto)
+        {
+            if (departmentDto == null) throw new ArgumentNullException(nameof(departmentDto));
+
+            await using var _context = _contextFactory.CreateDbContext();
+            var department = _mapper.Map<Department>(departmentDto);
+            _context.Departments.Add(department);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteDepartmentAsync(Guid departmentId)
+        {
+            if (departmentId == Guid.Empty) throw new ArgumentException("Department ID cannot be empty.", nameof(departmentId));
+
+            await using var _context = _contextFactory.CreateDbContext();
+            var department = await _context.Departments.FindAsync(departmentId);
+            if (department == null)
+            {
+                throw new KeyNotFoundException("Department not found.");
+            }
+
+            _context.Departments.Remove(department);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteDiseaseAsync(Guid diseaseId)
+        {
+            if (diseaseId == Guid.Empty) throw new ArgumentException("Disease ID cannot be empty.", nameof(diseaseId));
+
+            await using var _context = _contextFactory.CreateDbContext();
+            var disease = await _context.Diseases.FindAsync(diseaseId);
+            if (disease == null)
+            {
+                throw new KeyNotFoundException("Disease not found.");
+            }
+
+            _context.Diseases.Remove(disease);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteDepartmentAndDiseasesAsync(Guid departmentId)
+        {
+            if (departmentId == Guid.Empty) throw new ArgumentException("Department ID cannot be empty.", nameof(departmentId));
+
+            await using var _context = _contextFactory.CreateDbContext();
+            var department = await _context.Departments
+                .Include(d => d.Diseases)
+                .FirstOrDefaultAsync(d => d.DepartmentId == departmentId);
+
+            if (department == null)
+            {
+                throw new KeyNotFoundException("Department not found.");
+            }
+
+            // Delete associated diseases
+            _context.Diseases.RemoveRange(department.Diseases);
+
+            // Delete department
+            _context.Departments.Remove(department);
+
+            await _context.SaveChangesAsync();
         }
 
         #endregion

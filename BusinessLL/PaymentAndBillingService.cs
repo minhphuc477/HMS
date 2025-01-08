@@ -22,11 +22,11 @@ namespace BusinessLL
         }
 
         private static readonly HashSet<string> ValidPaymentMethods = new HashSet<string>
-            {
-                "CreditCard",
-                "Cash",
-                "Internet Banking"
-            };
+        {
+            "CreditCard",
+            "Cash",
+            "Internet Banking"
+        };
 
         private void ValidatePaymentMethod(string? paymentMethod)
         {
@@ -242,6 +242,22 @@ namespace BusinessLL
                 .ToListAsync();
         }
 
+        public async Task<bool> UpdateOrderAsync(OrderDTO orderDto)
+        {
+            using var context = _contextFactory.CreateDbContext();
+            var order = await context.Orders.FindAsync(orderDto.OrderId);
+            if (order == null)
+            {
+                return false;
+            }
+
+            _mapper.Map(orderDto, order);
+            context.Orders.Update(order);
+            await context.SaveChangesAsync();
+
+            return true;
+        }
+
         // Medical Record Methods
         public async Task<MedicalRecordDTO?> GetMedicalRecordByIdAsync(Guid medicalRecordId)
         {
@@ -261,12 +277,14 @@ namespace BusinessLL
 
         public async Task<List<MedicalRecordDTO>> GetMedicalRecordsAsync()
         {
-            using var context = _contextFactory.CreateDbContext();
-            return await context.MedicalRecords
-                .Include(mr => mr.PrescriptionDetails)
-                .ThenInclude(pd => pd.Product)
-                .Select(mr => _mapper.Map<MedicalRecordDTO>(mr))
+            await using var context = _contextFactory.CreateDbContext();
+            var medicalRecords = await context.MedicalRecords
+                .Include(mr => mr.Doctor)
+                .ThenInclude(d => d.User)
+                .Include(mr => mr.Patient)
                 .ToListAsync();
+
+            return _mapper.Map<List<MedicalRecordDTO>>(medicalRecords);
         }
 
         // Prescription Detail Methods
@@ -293,17 +311,56 @@ namespace BusinessLL
                 .Select(pd => _mapper.Map<PrescriptionDetailDTO>(pd))
                 .ToListAsync();
         }
+
         public async Task<UserDTO?> GetUserByIdAsync(Guid userId)
         {
             using var context = _contextFactory.CreateDbContext();
             var user = await context.Users.FindAsync(userId);
             return user == null ? null : _mapper.Map<UserDTO>(user);
         }
+
         public async Task<IEnumerable<PharmacyProductDTO>> GetAllProductsAsync()
         {
             await using var context = _contextFactory.CreateDbContext();
             var products = await context.PharmacyProducts.ToListAsync();
             return _mapper.Map<IEnumerable<PharmacyProductDTO>>(products);
+        }
+
+        // New methods for creating and updating pharmacy products
+        public async Task<PharmacyProductDTO> CreatePharmacyProductAsync(PharmacyProductDTO productDto)
+        {
+            using var context = _contextFactory.CreateDbContext();
+            var product = _mapper.Map<PharmacyProduct>(productDto);
+            product.ProductId = Guid.NewGuid();
+
+            context.PharmacyProducts.Add(product);
+            await context.SaveChangesAsync();
+
+            return _mapper.Map<PharmacyProductDTO>(product);
+        }
+
+        public async Task<bool> UpdatePharmacyProductAsync(PharmacyProductDTO productDto)
+        {
+            using var context = _contextFactory.CreateDbContext();
+            var product = await context.PharmacyProducts.FindAsync(productDto.ProductId);
+            if (product == null)
+            {
+                return false;
+            }
+
+            _mapper.Map(productDto, product);
+            context.PharmacyProducts.Update(product);
+            await context.SaveChangesAsync();
+
+            return true;
+        }
+
+        // New method to get a product by ID
+        public async Task<PharmacyProductDTO?> GetProductByIdAsync(Guid productId)
+        {
+            using var context = _contextFactory.CreateDbContext();
+            var product = await context.PharmacyProducts.FindAsync(productId);
+            return product == null ? null : _mapper.Map<PharmacyProductDTO>(product);
         }
     }
 }

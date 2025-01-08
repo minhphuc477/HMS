@@ -2,6 +2,7 @@
 using DataAL.Models;
 using DataTransferO;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer; 
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -273,6 +274,19 @@ namespace BusinessLL
             return _mapper.Map<AppointmentDTO>(appointment);
         }
 
+        public async Task<IEnumerable<AppointmentDTO>> GetAppointmentsByDepartmentAsync(Guid departmentId)
+        {
+            if (departmentId == Guid.Empty)
+                throw new ArgumentException("Department ID cannot be empty.", nameof(departmentId));
+
+            await using var _context = _contextFactory.CreateDbContext();
+            var appointments = await _context.Appointments
+                .Include(a => a.Patient) // Include patient information
+                .Where(a => a.DepartmentId == departmentId && a.IsActive == true && a.IsDeleted == false)
+                .ToListAsync();
+
+            return _mapper.Map<IEnumerable<AppointmentDTO>>(appointments);
+        }
 
         #endregion
 
@@ -359,7 +373,6 @@ namespace BusinessLL
             }
             return slots;
         }
-
 
         public async Task<List<DateTime>> GetAvailableTimeSlotsAsync(Guid doctorId, DateTime appointmentDate)
         {
@@ -481,6 +494,44 @@ namespace BusinessLL
             }
         }
 
+        public async Task<List<AppointmentDTO>> GetConfirmedAppointmentsAsync()
+        {
+            await using var context = _contextFactory.CreateDbContext();
+            var confirmedAppointments = await context.Appointments
+                .Where(a => a.Status == "Confirmed")
+                .Include(a => a.Doctor)
+                    .ThenInclude(d => d.User)
+                .Include(a => a.Department)
+                .ToListAsync();
+
+            return _mapper.Map<List<AppointmentDTO>>(confirmedAppointments);
+        }
+
+        public async Task<AppointmentDTO> MarkAppointmentAsCompleteAsync(Guid appointmentId)
+        {
+            await using var context = _contextFactory.CreateDbContext();
+            var appointment = await context.Appointments
+                .Include(a => a.Patient) // Include patient details
+                .FirstOrDefaultAsync(a => a.AppointmentId == appointmentId);
+            if (appointment == null)
+            {
+                throw new Exception("Appointment not found");
+            }
+
+            appointment.Status = "Completed";
+            appointment.IsActive = false;
+
+            context.Appointments.Update(appointment);
+            await context.SaveChangesAsync();
+
+            return _mapper.Map<AppointmentDTO>(appointment);
+        }
+
+
+
+
+
         #endregion
     }
 }
+

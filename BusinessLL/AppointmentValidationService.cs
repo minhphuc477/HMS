@@ -152,5 +152,7 @@ namespace BusinessLL
                 throw new Exception("Patient email is required to book an appointment.");
             }
         }
+
+
     }
 }

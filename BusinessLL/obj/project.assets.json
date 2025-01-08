@@ -275,6 +275,28 @@
           "itext.bouncy-castle-adapter": "9.0.0"
         }
       },
+      "LiveCharts/0.9.7": {
+        "type": "package",
+        "compile": {
+          "lib/net45/LiveCharts.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net45/LiveCharts.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "LiveCharts.Core/0.9.8": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/LiveCharts.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/LiveCharts.dll": {}
+        }
+      },
       "Microsoft.AspNet.WebApi.Client/6.0.0": {
         "type": "package",
         "dependencies": {
@@ -3450,6 +3472,40 @@
         "gnu-agpl-v3.0.md",
         "itext7.bouncy-castle-adapter.9.0.0.nupkg.sha512",
         "itext7.bouncy-castle-adapter.nuspec"
+      ]
+    },
+    "LiveCharts/0.9.7": {
+      "sha512": "p4xyBrUaNNfkWZSNsIle0r51cyVyFg0Yi0uBRZM5GQtdFiA/7guZHlffFyNUILIdux10Ch2hUaJpcZENVU9aaQ==",
+      "type": "package",
+      "path": "livecharts/0.9.7",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net40/LiveCharts.dll",
+        "lib/net40/LiveCharts.pdb",
+        "lib/net40/LiveCharts.xml",
+        "lib/net45/LiveCharts.dll",
+        "lib/net45/LiveCharts.pdb",
+        "lib/net45/LiveCharts.xml",
+        "lib/portable-net45+win8+wp8/LiveCharts.XML",
+        "lib/portable-net45+win8+wp8/LiveCharts.dll",
+        "lib/portable-net45+win8+wp8/LiveCharts.pdb",
+        "livecharts.0.9.7.nupkg.sha512",
+        "livecharts.nuspec",
+        "readme.txt"
+      ]
+    },
+    "LiveCharts.Core/0.9.8": {
+      "sha512": "USb2TBOeER19X0ar5Zgki1ezjrSXBOmUoz3IqzTeksDm6hoaLFqs3iW9+wjHFuWNQGy9lLcVh2YIhhxVIg+zNQ==",
+      "type": "package",
+      "path": "livecharts.core/0.9.8",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net40/LiveCharts.dll",
+        "lib/netstandard2.0/LiveCharts.dll",
+        "livecharts.core.0.9.8.nupkg.sha512",
+        "livecharts.core.nuspec"
       ]
     },
     "Microsoft.AspNet.WebApi.Client/6.0.0": {
@@ -9519,6 +9575,8 @@
       "Dapper >= 2.1.35",
       "DataAL >= 1.0.0",
       "DataTransferO >= 1.0.0",
+      "LiveCharts >= 0.9.7",
+      "LiveCharts.Core >= 0.9.8",
       "Microsoft.AspNet.WebApi.Client >= 6.0.0",
       "Microsoft.EntityFrameworkCore >= 9.0.0",
       "Microsoft.EntityFrameworkCore.Design >= 9.0.0",
@@ -9618,6 +9676,14 @@
           "Dapper": {
             "target": "Package",
             "version": "[2.1.35, )"
+          },
+          "LiveCharts": {
+            "target": "Package",
+            "version": "[0.9.7, )"
+          },
+          "LiveCharts.Core": {
+            "target": "Package",
+            "version": "[0.9.8, )"
           },
           "Microsoft.AspNet.WebApi.Client": {
             "target": "Package",
@@ -9719,6 +9785,16 @@
       "warningLevel": 1,
       "message": "Package 'BarcodeLib.Barcode.Generator.WinForms.NET.Framework 7.4.1.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0'. This package may not be fully compatible with your project.",
       "libraryId": "BarcodeLib.Barcode.Generator.WinForms.NET.Framework",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'LiveCharts 0.9.7' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0'. This package may not be fully compatible with your project.",
+      "libraryId": "LiveCharts",
       "targetGraphs": [
         "net8.0"
       ]

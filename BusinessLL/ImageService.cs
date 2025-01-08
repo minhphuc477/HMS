@@ -119,7 +119,7 @@ namespace BusinessLL
             using (var ms = new MemoryStream(imageData))
             {
 #if WINDOWS
-                        return DrawingImage.FromStream(ms);
+                    return DrawingImage.FromStream(ms);
 #else
                 throw new PlatformNotSupportedException("Image conversion is only supported on Windows.");
 #endif
@@ -189,6 +189,37 @@ namespace BusinessLL
                     ImageId = Guid.NewGuid(),
                     EntityId = userId,
                     EntityType = "Patient",
+                    ImageData = imageData,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                };
+                _context.Images.Add(newImage);
+            }
+
+            await _context.SaveChangesAsync();
+            return existingImage?.ImageId ?? newImage.ImageId;
+        }
+
+        public async Task<Guid> AddOrUpdateDoctorImageAsync(Guid doctorId, byte[] imageData)
+        {
+            var existingImage = await _context.Images.FirstOrDefaultAsync(i => i.EntityId == doctorId && i.EntityType == "Doctor");
+            Image newImage = null;
+
+            if (existingImage != null)
+            {
+                // Update the existing image
+                existingImage.ImageData = imageData;
+                existingImage.UpdatedAt = DateTime.UtcNow;
+                _context.Images.Update(existingImage);
+            }
+            else
+            {
+                // Insert a new image
+                newImage = new Image
+                {
+                    ImageId = Guid.NewGuid(),
+                    EntityId = doctorId,
+                    EntityType = "Doctor",
                     ImageData = imageData,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow

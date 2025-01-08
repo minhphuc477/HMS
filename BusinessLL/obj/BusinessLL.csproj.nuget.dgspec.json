@@ -80,6 +80,14 @@
               "target": "Package",
               "version": "[2.1.35, )"
             },
+            "LiveCharts": {
+              "target": "Package",
+              "version": "[0.9.7, )"
+            },
+            "LiveCharts.Core": {
+              "target": "Package",
+              "version": "[0.9.8, )"
+            },
             "Microsoft.AspNet.WebApi.Client": {
               "target": "Package",
               "version": "[6.0.0, )"

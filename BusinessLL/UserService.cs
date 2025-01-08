@@ -3,6 +3,7 @@ using DataAL.Models;
 using DataTransferO;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -84,14 +85,38 @@ namespace BusinessLL
         {
             ValidateUser(userDto);
 
+            if (string.IsNullOrWhiteSpace(userDto.Email))
+            {
+                throw new ArgumentException("Email cannot be empty.");
+            }
+
             if (userDto.PasswordHash == null || !IsPasswordHashed(userDto.PasswordHash))
             {
                 userDto.PasswordHash = HashPassword(userDto.PasswordHash ?? string.Empty);
             }
 
+            // Map UserDTO to User
             var user = _mapper.Map<User>(userDto);
+
+            // Log the mapped User object to verify the email and gender
+            Log.Information("Mapped User object before saving: {@User}", user);
+
+            // Ensure Email and Gender are not null
+            if (string.IsNullOrWhiteSpace(user.Email))
+            {
+                throw new ArgumentException("Email cannot be null or empty.");
+            }
+
+            if (string.IsNullOrWhiteSpace(user.Gender))
+            {
+                throw new ArgumentException("Gender cannot be null or empty.");
+            }
+
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
+
+            // Log for successful save
+            Log.Information("User saved successfully with ID: {UserId}", user.UserId);
 
             await _auditLogService.LogAuditAsync("Users", user.UserId, "Create", null, JsonConvert.SerializeObject(user), "System");
         }
@@ -172,6 +197,41 @@ namespace BusinessLL
                 .FirstOrDefaultAsync(u => u.Email.ToLower() == lowerEmailOrUsername || u.Name.ToLower() == lowerEmailOrUsername);
             return user != null ? _mapper.Map<UserDTO>(user) : null;
         }
+
+
+        public async Task<IEnumerable<UserDTO>> GetInactiveDoctorsAsync()
+        {
+            var doctorRoleId = GetRoleIdByName("Doctor");
+            var inactiveDoctors = await _context.Users
+                .Where(u => u.IsActive == false && u.IsDeleted == true && u.RoleId == doctorRoleId)
+                .Include(u => u.DoctorDetails)
+                .ToListAsync();
+
+            return _mapper.Map<IEnumerable<UserDTO>>(inactiveDoctors);
+        }
+
+        public async Task ReactivateDoctorAsync(Guid userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+
+            user.IsDeleted = false;
+            user.IsActive = true;
+
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+
+            var settings = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+
+            await _auditLogService.LogAuditAsync("Users", user.UserId, "Reactivate", null, JsonConvert.SerializeObject(user, settings), "System");
+        }
+
         #endregion
 
         #region Helper Methods
