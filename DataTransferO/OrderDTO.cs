@@ -16,6 +16,8 @@ namespace DataTransferO
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
+        // Navigation properties
+        public ICollection<OrderDetailDTO> OrderDetails { get; set; } = new List<OrderDetailDTO>();
+        public DepartmentDTO? Department { get; set; }
     }
 }
-

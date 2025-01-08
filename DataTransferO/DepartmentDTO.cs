@@ -9,6 +9,9 @@ namespace DataTransferO
         public string? DepartmentName { get; set; }
         public string? DepartmentCode { get; set; }
         public string? Description { get; set; }
+
+
+        public virtual ICollection<DiseaseDTO> Diseases { get; set; } = new List<DiseaseDTO>();
     }
 }
 

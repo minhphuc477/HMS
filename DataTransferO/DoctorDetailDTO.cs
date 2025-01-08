@@ -11,6 +11,7 @@ public class DoctorDetailDTO
     public int? ExperienceYears { get; set; }
     public string? Description { get; set; }
     public UserDTO User { get; set; } = new UserDTO();
+    public DepartmentDTO? Department { get; set; }
 
     // Custom property to display the doctor's name
     public string DoctorName => User?.Name ?? "Unknown";

@@ -11,6 +11,7 @@ namespace DataTransferO
 
         // Navigation properties
         public DepartmentDTO? Department { get; set; }
+
         public ICollection<MedicalRecordDTO> MedicalRecords { get; set; } = new List<MedicalRecordDTO>();
     }
 }

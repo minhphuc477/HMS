@@ -9,6 +9,8 @@ namespace DataTransferO
         public Guid ProductId { get; set; }
         public int Quantity { get; set; }
         public decimal Price { get; set; }
+
+        // Navigation properties
+        public PharmacyProductDTO Product { get; set; } = null!;
     }
 }
-
